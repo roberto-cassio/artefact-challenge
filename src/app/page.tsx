@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ListaTarefas } from "@/components/ListaTarefas";
 import { createCaller } from "@/server/router";
 
@@ -16,6 +17,9 @@ export default async function Home() {
     <>
       <div className="cabecalho">
         <h1>Tarefas</h1>
+        <Link href="/tarefas/nova" className="botao primario">
+          Nova tarefa
+        </Link>
       </div>
       <ListaTarefas primeiraPagina={primeiraPagina} limit={TAMANHO_PAGINA} />
     </>

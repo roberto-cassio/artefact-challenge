@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { formatarData } from "@/lib/formatarData";
 import { trpc, type RouterOutputs } from "@/lib/trpc";
@@ -71,6 +72,7 @@ export function ListaTarefas({ primeiraPagina, limit }: Props) {
                 </time>
               </div>
               <div className="acoes">
+                <Link href={`/tarefas/${tarefa.id}/editar`}>Editar</Link>
                 <button
                   className="perigo"
                   onClick={() => handleExcluir(tarefa)}

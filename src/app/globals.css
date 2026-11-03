@@ -70,6 +70,50 @@ button.perigo {
   color: var(--perigo);
 }
 
+.primario {
+  background: var(--primaria);
+  border-color: var(--primaria);
+  color: #fff;
+}
+
+.form {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+
+.form label {
+  display: grid;
+  gap: 0.35rem;
+  font-weight: 500;
+}
+
+.form label span {
+  color: var(--suave);
+  font-weight: 400;
+}
+
+.form input,
+.form textarea {
+  font: inherit;
+  border: 1px solid var(--borda);
+  border-radius: 6px;
+  padding: 0.5rem 0.65rem;
+  resize: vertical;
+}
+
+.form [aria-invalid="true"] {
+  border-color: var(--perigo);
+}
+
+.form .aviso {
+  margin-bottom: 0;
+}
+
 .cabecalho {
   display: flex;
   align-items: center;
