@@ -9,6 +9,9 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.105.3",
+    "@trpc/client": "^11.23.0",
+    "@trpc/react-query": "^11.23.0",
     "@trpc/server": "^11.23.0",
     "next": "15.5.28",
     "react": "19.1.0",
