@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import { Roboto } from "next/font/google";
 import Link from "next/link";
 import { Providers } from "./providers";
 import "./globals.css";
+
+const roboto = Roboto({ subsets: ["latin"], weight: ["300", "400", "500", "700"] });
 
 export const metadata: Metadata = {
   title: "Tarefas",
@@ -15,9 +18,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body>
+      <body className={roboto.className}>
         <header className="topo">
-          <Link href="/">Tarefas</Link>
+          <Link href="/" className="marca">
+            Gerenciador de <span>tarefas</span>
+          </Link>
         </header>
         <main>
           <Providers>{children}</Providers>

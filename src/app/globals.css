@@ -1,11 +1,12 @@
 :root {
-  --fundo: #f6f7f9;
-  --texto: #1f2328;
-  --suave: #656d76;
-  --borda: #d0d7de;
-  --primaria: #2563eb;
-  --perigo: #dc2626;
-  --sucesso: #15803d;
+  --azul: #002244;
+  --rosa: #ff0066;
+  --verde-agua: #65cccc;
+  --fundo: #f2f2f2;
+  --suave: #5b6b7f;
+  --borda: #d5dbe3;
+  --perigo: #c62828;
+  --sombra: 0 1px 3px rgba(0, 34, 68, 0.12);
 }
 
 * {
@@ -16,48 +17,73 @@
 
 body {
   background: var(--fundo);
-  color: var(--texto);
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: var(--azul);
   line-height: 1.5;
 }
 
 a {
-  color: var(--primaria);
+  color: var(--azul);
   text-decoration: none;
 }
 
-.topo {
-  background: #fff;
-  border-bottom: 1px solid var(--borda);
-  padding: 1rem;
+a:hover {
+  text-decoration: underline;
 }
 
-.topo a {
-  color: var(--texto);
-  font-weight: 600;
-  font-size: 1.1rem;
+:focus-visible {
+  outline: 2px solid var(--rosa);
+  outline-offset: 2px;
+}
+
+/* Faixa azul do topo; o conteúdo sobe por cima dela (margem negativa no main). */
+.topo {
+  background: radial-gradient(circle at 85% 110%, rgba(255, 0, 102, 0.4), transparent 40%), var(--azul);
+  padding: 1.25rem 1rem 9rem;
+}
+
+.topo .marca {
+  display: block;
+  max-width: calc(720px - 2rem);
+  margin: 0 auto;
+  color: #fff;
+  font-size: 0.8rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+.topo .marca span {
+  color: var(--rosa);
 }
 
 main {
   max-width: 720px;
-  margin: 0 auto;
-  padding: 1.5rem 1rem 3rem;
+  margin: -7.5rem auto 0;
+  padding: 0 1rem 3rem;
 }
 
 h1 {
-  font-size: 1.5rem;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+}
+
+h1::after {
+  content: ".";
+  color: var(--rosa);
+  font-weight: 700;
 }
 
 button,
 .botao {
   display: inline-block;
-  border: 1px solid var(--borda);
-  border-radius: 6px;
+  border: 1px solid var(--azul);
   background: #fff;
-  color: var(--texto);
+  color: var(--azul);
   font: inherit;
   font-size: 0.9rem;
-  padding: 0.4rem 0.9rem;
+  font-weight: 500;
+  padding: 0.5rem 1.1rem;
   cursor: pointer;
 }
 
@@ -66,82 +92,57 @@ button:disabled {
   cursor: default;
 }
 
-button.perigo {
-  color: var(--perigo);
-}
-
 .primario {
-  background: var(--primaria);
-  border-color: var(--primaria);
+  background: var(--rosa);
+  border-color: var(--rosa);
   color: #fff;
 }
 
-.form {
-  display: grid;
-  gap: 1rem;
-  margin-top: 1rem;
-  background: #fff;
-  border: 1px solid var(--borda);
-  border-radius: 8px;
-  padding: 1.25rem;
-}
-
-.form label {
-  display: grid;
-  gap: 0.35rem;
-  font-weight: 500;
-}
-
-.form label span {
-  color: var(--suave);
-  font-weight: 400;
-}
-
-.form input,
-.form textarea {
-  font: inherit;
-  border: 1px solid var(--borda);
-  border-radius: 6px;
-  padding: 0.5rem 0.65rem;
-  resize: vertical;
-}
-
-.form [aria-invalid="true"] {
-  border-color: var(--perigo);
-}
-
-.form .aviso {
-  margin-bottom: 0;
+.primario:hover:not(:disabled) {
+  background: #e0005a;
+  text-decoration: none;
 }
 
 .cabecalho {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.cabecalho h1 {
+  margin-bottom: 0;
 }
 
 .aviso {
-  border-radius: 6px;
-  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border-left: 4px solid;
+  box-shadow: var(--sombra);
+  padding: 0.75rem 1rem;
   margin-bottom: 1rem;
-  border: 1px solid;
 }
 
 .aviso.sucesso {
-  color: var(--sucesso);
-  background: #f0fdf4;
+  border-color: var(--verde-agua);
 }
 
 .aviso.erro {
+  border-color: var(--rosa);
   color: var(--perigo);
-  background: #fef2f2;
 }
 
 .vazio {
+  background: #fff;
+  box-shadow: var(--sombra);
   color: var(--suave);
   text-align: center;
-  padding: 2rem 0;
+  padding: 2.5rem 1rem;
+}
+
+.vazio a {
+  display: inline-block;
+  margin-top: 0.5rem;
 }
 
 .lista {
@@ -156,21 +157,65 @@ button.perigo {
   align-items: flex-start;
   gap: 1rem;
   background: #fff;
-  border: 1px solid var(--borda);
-  border-radius: 8px;
-  padding: 0.9rem 1rem;
+  box-shadow: var(--sombra);
+  padding: 1rem 1.25rem;
+}
+
+.tarefa strong {
+  font-weight: 500;
+}
+
+/* Marcador quadrado, alternando as três cores da paleta. */
+.tarefa strong::before {
+  content: "";
+  display: inline-block;
+  width: 0.5em;
+  height: 0.5em;
+  margin-right: 0.6em;
+  vertical-align: 0.15em;
+  background: var(--azul);
+}
+
+.tarefa:nth-child(3n + 2) strong::before {
+  background: var(--rosa);
+}
+
+.tarefa:nth-child(3n) strong::before {
+  background: var(--verde-agua);
 }
 
 .tarefa p {
   color: var(--suave);
+  font-weight: 300;
   white-space: pre-wrap;
+  margin-top: 0.25rem;
 }
 
 .tarefa time {
   display: block;
   color: var(--suave);
   font-size: 0.8rem;
-  margin-top: 0.25rem;
+  margin-top: 0.4rem;
+}
+
+.acoes {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.tarefa .acoes a,
+.tarefa .acoes button {
+  border: 0;
+  background: none;
+  padding: 0;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.tarefa .acoes button {
+  color: var(--perigo);
 }
 
 .rodape-lista {
@@ -180,9 +225,48 @@ button.perigo {
   padding: 1.5rem 0;
 }
 
-.acoes {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  flex-shrink: 0;
+.form {
+  display: grid;
+  gap: 1.25rem;
+  background: #fff;
+  box-shadow: var(--sombra);
+  padding: 1.5rem;
+}
+
+.form label {
+  font-weight: 500;
+}
+
+.form label span {
+  color: var(--suave);
+  font-weight: 300;
+}
+
+.form input,
+.form textarea {
+  display: block;
+  width: 100%;
+  margin-top: 0.35rem;
+  font: inherit;
+  font-weight: 400;
+  color: var(--azul);
+  border: 1px solid var(--borda);
+  padding: 0.6rem 0.75rem;
+  resize: vertical;
+}
+
+.form input:focus,
+.form textarea:focus {
+  border-color: var(--azul);
+  outline: none;
+}
+
+.form [aria-invalid="true"] {
+  border-color: var(--rosa);
+}
+
+.form .aviso {
+  margin-bottom: 0;
+  box-shadow: none;
+  background: var(--fundo);
 }
