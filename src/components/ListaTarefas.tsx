@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { formatarData } from "@/lib/formatarData";
 import { trpc, type RouterOutputs } from "@/lib/trpc";
 
@@ -20,13 +20,33 @@ export function ListaTarefas({ primeiraPagina, limit }: Props) {
 
   // A primeira página chega pronta do servidor e vira o estado inicial da
   // query; as seguintes são buscadas pelo cliente usando o cursor.
-  const { data } = trpc.tarefa.listar.useInfiniteQuery(
-    { limit },
-    {
-      initialData: { pages: [primeiraPagina], pageParams: [null] },
-      getNextPageParam: (pagina) => pagina.proximoCursor,
-    },
-  );
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetchNextPageError } =
+    trpc.tarefa.listar.useInfiniteQuery(
+      { limit },
+      {
+        initialData: { pages: [primeiraPagina], pageParams: [null] },
+        getNextPageParam: (pagina) => pagina.proximoCursor,
+      },
+    );
+
+  // Infinite scroll: quando a sentinela no fim da lista aparece, busca a
+  // próxima página. O observer é recriado a cada carregamento para que, se a
+  // sentinela continuar visível (tela alta), a busca seguinte já dispare.
+  // Depois de um erro ele para, e o usuário tenta de novo pelo botão.
+  const sentinela = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const alvo = sentinela.current;
+    if (!alvo || !hasNextPage || isFetchingNextPage || isFetchNextPageError) return;
+
+    const observer = new IntersectionObserver(
+      ([entrada]) => {
+        if (entrada.isIntersecting) fetchNextPage();
+      },
+      { rootMargin: "200px" },
+    );
+    observer.observe(alvo);
+    return () => observer.disconnect();
+  }, [hasNextPage, isFetchingNextPage, isFetchNextPageError, fetchNextPage]);
 
   const excluir = trpc.tarefa.excluir.useMutation({
     onSuccess: ({ id }) => {
@@ -85,6 +105,19 @@ export function ListaTarefas({ primeiraPagina, limit }: Props) {
           ))}
         </ul>
       )}
+
+      <div ref={sentinela} className="rodape-lista">
+        {isFetchingNextPage ? (
+          "Carregando mais tarefas..."
+        ) : isFetchNextPageError ? (
+          <>
+            Não foi possível carregar mais tarefas.{" "}
+            <button onClick={() => fetchNextPage()}>Tentar novamente</button>
+          </>
+        ) : (
+          !hasNextPage && tarefas.length > 0 && "Todas as tarefas foram carregadas."
+        )}
+      </div>
     </>
   );
 }

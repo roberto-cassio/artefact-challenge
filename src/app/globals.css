@@ -173,6 +173,13 @@ button.perigo {
   margin-top: 0.25rem;
 }
 
+.rodape-lista {
+  color: var(--suave);
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 1.5rem 0;
+}
+
 .acoes {
   display: flex;
   align-items: center;
