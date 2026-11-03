@@ -107,16 +107,14 @@ export function ListaTarefas({ primeiraPagina, limit }: Props) {
       )}
 
       <div ref={sentinela} className="rodape-lista">
-        {isFetchingNextPage ? (
-          "Carregando mais tarefas..."
-        ) : isFetchNextPageError ? (
-          <>
-            Não foi possível carregar mais tarefas.{" "}
-            <button onClick={() => fetchNextPage()}>Tentar novamente</button>
-          </>
-        ) : (
-          !hasNextPage && tarefas.length > 0 && "Todas as tarefas foram carregadas."
-        )}
+        {isFetchingNextPage
+          ? "Carregando mais tarefas..."
+          : isFetchNextPageError && (
+              <>
+                Não foi possível carregar mais tarefas.{" "}
+                <button onClick={() => fetchNextPage()}>Tentar novamente</button>
+              </>
+            )}
       </div>
     </>
   );
