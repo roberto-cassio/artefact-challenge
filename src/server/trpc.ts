@@ -1,0 +1,17 @@
+import { initTRPC } from "@trpc/server";
+import { ZodError } from "zod";
+
+const t = initTRPC.create({
+  // Por padrão, um erro de validação chega ao cliente como o JSON com todas as
+  // issues do zod. Aqui ele vira uma frase legível, que o front exibe direto.
+  errorFormatter({ shape, error }) {
+    if (error.cause instanceof ZodError) {
+      return { ...shape, message: error.cause.issues.map((issue) => issue.message).join("; ") };
+    }
+    return shape;
+  },
+});
+
+export const router = t.router;
+export const publicProcedure = t.procedure;
+export const createCallerFactory = t.createCallerFactory;
